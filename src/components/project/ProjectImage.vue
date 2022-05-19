@@ -4,8 +4,9 @@ const props = defineProps<{ path: string }>();
 
 <template>
   <div
+    style="pointer-events: none"
     :style="`background-image:url(${props.path})`"
     className="col-md-6 full child"
-    @click="props.onClick"
   />
+  <!-- TODO: click event to lightbox -->
 </template>

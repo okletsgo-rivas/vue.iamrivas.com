@@ -10,9 +10,7 @@ const filters: IFilter[] = [
   { title: "Design", id: "design", value: 126 },
 ];
 const emit = defineEmits(["change"]);
-const props = withDefaults(defineProps<{ projects: IProject[] }>(), {
-  projects: [],
-});
+const props = defineProps<{ projects: IProject[] }>();
 const activeFilter = ref(filters[0]);
 const filteredArray = computed(() => getFilteredArray(activeFilter.value));
 

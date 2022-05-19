@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import type { IProject } from "./IProject";
 import ProjectInfo from "./ProjectInfo.vue";
 import ProjectImage from "./ProjectImage.vue";
@@ -13,7 +14,9 @@ interface IProps {
 
 const props = defineProps<IProps>();
 const hasImg = props.project.field_image.length > 0;
-const img = hasImg ? "//d9.iamrivas.com" + props.project.field_image : "";
+const img = computed(() =>
+  hasImg ? "//d9.iamrivas.com" + props.project.field_image : ""
+);
 const isEven = props.i % 2 === 1;
 </script>
 
@@ -22,7 +25,6 @@ const isEven = props.i % 2 === 1;
     <ProjectInfo v-if="isEven" key="0" :project="props.project" :thumb="img" />
 
     <ProjectImage key="1" :path="img" />
-
     <ProjectInfo v-if="!isEven" key="0" :project="props.project" :thumb="img" />
   </div>
 </template>

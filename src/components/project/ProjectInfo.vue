@@ -12,7 +12,7 @@ const props = defineProps<IProps>();
 <template>
   <div class="col-md-6 text-center d-flex align-items-center info child">
     <div>
-      <h5>{{ props.project.i }} {{ props.project.title }}</h5>
+      <h5>{{ props.project.title }}</h5>
       <div class="text-muted">
         <p v-html="props.project.body"></p>
         <p v-if="props.project.field_link.length">

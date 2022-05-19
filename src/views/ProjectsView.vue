@@ -9,10 +9,10 @@ import { useStore } from "@/stores/store";
 
 const store = useStore();
 const projects = ref<IProject[]>([]);
-const filteredArray = ref<IFilter[]>([]);
+const filteredArray = ref<IProject[]>([]);
 const error = ref<string | null>(null);
 
-const onFilterChange = (_) => (filteredArray.value = _);
+const onFilterChange = (newList: IProject[]) => (filteredArray.value = newList);
 
 onMounted(async () => {
   try {
