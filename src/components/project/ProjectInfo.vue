@@ -1,21 +1,12 @@
 <script setup lang="ts">
-interface IProject {
-  title: string;
-  body: string;
-  field_tags: string;
-  field_image: string;
-  field_type: string;
-  nid: string;
-  field_link: string;
-}
+import type { IProject } from "./IProject";
+
 interface IProps {
   project: IProject;
+  thumb: string;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-  project: undefined,
-  img: "",
-});
+const props = defineProps<IProps>();
 </script>
 
 <template>
@@ -34,7 +25,7 @@ const props = withDefaults(defineProps<IProps>(), {
           </a>
         </p>
       </div>
-      <div :style="props.img" class="thumb" />
+      <div :style="`background-image:url(${props.thumb})`" class="thumb" />
     </div>
   </div>
 </template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const props = defineProps<{ bg: string; path: string }>();
+const props = defineProps<{ path: string }>();
 </script>
 
 <template>
   <div
-    :style="props.bg"
+    :style="`background-image:url(${props.path})`"
     className="col-md-6 full child"
     @click="props.onClick"
   />

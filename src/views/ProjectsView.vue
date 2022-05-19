@@ -1,69 +1,57 @@
-<script lang="ts">
-import { onMounted, reactive } from "vue";
-import Project from "@/components/project/Project.vue";
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import ProjectFilter from "@/components/project/ProjectFilter.vue";
+import ProjectComponent from "@/components/project/ProjectComponent.vue";
+import type { IProject } from "@/components/project/IProject";
+import type { IFilter } from "@/components/project/IFilter";
+import { useStore } from "@/stores/store";
 // import {useStore} from '@/stores/projects'
 
-export default {
-  setup() {
-    const state = reactive({
-      projects: [],
-    });
-    onMounted(async () => {
-      console.log("onMounted");
-      try {
-        const res = await fetch("https://d9.iamrivas.com/json/projects2", {
-          method: "GET",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-        });
-        console.log(res);
-        if (res.ok) state.projects = await res.json();
-      } catch (e) {
-        console.error(e);
-      }
-    });
+const store = useStore();
+const projects = ref<IProject[]>([]);
+const filteredArray = ref<IFilter[]>([]);
+const error = ref<string | null>(null);
 
-    return { state };
-  },
-};
+const onFilterChange = (_) => (filteredArray.value = _);
+
+onMounted(async () => {
+  try {
+    const url = store.isMock
+      ? "./iamrivas-data_dump.json"
+      : "https://d9.iamrivas.com/json/projects2";
+    const res = await fetch(url);
+    if (res.ok) projects.value = await res.json();
+  } catch (e: any) {
+    error.value = e.message;
+  }
+});
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="!projects" class="container">
     <div class="row">
       <div class="col">
-        <em>Loading...</em>
+        <div v-if="error" class="alert alert-danger" role="alert">
+          Error: {{ error }}
+        </div>
+        <em v-else>Loading...</em>
       </div>
     </div>
   </div>
-  <div class="container projects">
-    <div ref="filters" class="row filters">
-      <div class="col-xs-12">
-        <div
-          name="filters"
-          class="btn-group w-100"
-          role="group"
-          aria-label="Filter Group"
-        >
-          <button
-            v-for="id in ['test', 'test', 'test']"
-            type="button"
-            class="btn btn-light"
-            :value="{ value: id, id: id }"
-            :key="id"
-          >
-            {{ id }}
-            <span class="badge badge-light ml-2">10</span>
-          </button>
-        </div>
+  <div v-else class="container projects">
+    <div class="row filters">
+      <div class="col-xs-12 w-100">
+        <ProjectFilter :projects="projects" @change="onFilterChange" />
       </div>
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <Project v-for="(project, i) in state.projects" :key="i" :i="i" />
+        <ProjectComponent
+          v-for="(project, i) in filteredArray"
+          :key="i"
+          :project="project"
+          :i="i"
+        />
       </div>
     </div>
   </div>
