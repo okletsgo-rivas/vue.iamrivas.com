@@ -15,7 +15,7 @@ interface IProps {
 const props = defineProps<IProps>();
 const hasImg = props.project.field_image.length > 0;
 const img = computed(() =>
-  hasImg ? "//d9.iamrivas.com" + props.project.field_image : ""
+  hasImg ? "//d10.iamrivas.com" + props.project.field_image : ""
 );
 const isEven = props.i % 2 === 1;
 </script>

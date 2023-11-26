@@ -18,7 +18,7 @@ onMounted(async () => {
   try {
     const url = store.isMock
       ? "./iamrivas-data_dump.json"
-      : "https://d9.iamrivas.com/json/projects2";
+      : "https://d10.iamrivas.com/json/projects2";
     const res = await fetch(url);
     if (res.ok) projects.value = await res.json();
   } catch (e: any) {
